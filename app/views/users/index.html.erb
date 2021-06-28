@@ -1,0 +1,40 @@
+<br>
+<h3 class="ms-1">Listing Users</h3>
+<br/>
+<table class="table">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Type</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @users.each do |user| %>
+      <tr>
+        <td><%= user.id %></td>
+        <td><%= user.name %></td>
+        <td><%= user.email %></td>
+        <td><%= user.user_type.capitalize %></td>
+        <td>
+          <% if can? :show, User %>
+            <%= link_to "Show", user_path(user) %>
+          <% end %>
+        </td>
+        <td>
+          <% if can? :edit, User%>
+            <%= link_to "Edit", edit_user_path(user) %>
+          <% end %>
+        </td>
+        <td>
+          <% if can? :destroy, User%>
+            <%= link_to "Destroy", user_path(user), method: :delete, data: { confirm: "Are you sure?" } %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

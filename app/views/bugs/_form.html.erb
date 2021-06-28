@@ -1,0 +1,58 @@
+<div class="container-fluid">
+  <%= form_with url: bugs_path, method: :post do |form| %>
+    <p>
+      <%= form.label :project_id, :Project, class: 'form-label' %>
+      <%= form.select :project_id, Project.all.collect {|p| [ p.name, p.id ] }, {prompt: 'Select Project'}, class: 'form-control' %>
+    </p>
+    <p>
+      <%= form.label :title, :Title, class: 'form-label' %>
+      <%= form.text_field :title, class: 'form-control' %>
+    </p>
+    <p>
+      <%= form.label :description, :Description, class: 'form-label' %>
+      <%= form.text_field :description, class: 'form-control' %>
+    </p>
+    <p>
+      <%= form.label :deadline, :Deadline, class: 'form-label' %>
+      <%= form.datetime_field :deadline, class: 'form-control' %>
+    </p>
+    <p>
+      <%= form.label :screenshot, :Screenshot, class: 'form-label' %>
+      <%= form.file_field :screenshot, class: 'form-control' %>
+    </p>
+    <p>
+      <%= form.label :bug_type, :Bug_Type, class: 'form-label' %>
+      <!-- insert select field -->
+      <%= form.select :bug_type, options_for_select(Bug.bug_types.map {|k, v| [k.humanize.capitalize, k]}), {}, { :onChange=>"bugTypeChange();", class: 'form-control' } %>
+    </p>
+    <p>
+      <%= form.label :feature_status, :Status, class: 'form-label' %>
+      <!-- insert select field -->
+      <%= form.select :feature_status, options_for_select(Bug.feature_statuses.map {|k, v| [k.humanize.capitalize, k]}), {prompt: 'Select Status'}, { class: 'form-control' } %>
+    </p>
+    <p>
+      <%= form.label :bug_status, :Status, class: 'form-label d-none' %>
+      <!-- insert select field -->
+      <%= form.select :bug_status, options_for_select(Bug.bug_statuses.map {|k, v| [k.humanize.capitalize, k]}), {prompt: 'Select Status'}, { class: 'form-control d-none'} %>
+    </p>
+    <%= form.submit %>
+  <% end %>
+  <div>
+    <script>
+      let selectedType = 0
+      function bugTypeChange() {
+        if ( selectedType == 0 ) {
+          $("label[for='feature_status']")[0].className = "d-none";
+          $("#feature_status")[0].className = "d-none";
+          $("label[for='bug_status']")[0].className = "";
+          $("#bug_status")[0].className = "";
+          selectedType = 1;
+        } else {
+          $("label[for='feature_status']")[0].className = "";
+          $("#feature_status")[0].className = "";
+          $("label[for='bug_status']")[0].className = "d-none";
+          $("#bug_status")[0].className = "d-none";
+          selectedType = 0;
+        }
+      }
+    </script>

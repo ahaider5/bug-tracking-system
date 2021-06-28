@@ -1,0 +1,27 @@
+<div class='container-fluid'>
+  <%= form_for @project do |f| %>
+    <p>
+      <%= f.label :name, :Name, class: 'form-label'  %>
+      <%= f.text_field :name, class: 'form-control' %>
+    </p>
+    <p>
+      <%= f.label :description, :Description, class: 'form-label' %>
+      <%= f.text_area :description, class: 'form-control' %>
+    </p>
+    <p>
+      <%= f.label :project_qas, :QAs, class: 'form-label' %>
+      <%= f.fields_for :project_qas do |builder| %>
+        <%= render 'project_qa_fields', f: builder %>
+      <% end %>
+      <%= link_to_add_fields "Add QA", f, :project_qas %>
+    </p>
+    <p>
+      <%= f.label :project_devs, :Devs, class: 'form-label' %>
+      <%= f.fields_for :project_devs do |builder| %>
+        <%= render 'project_dev_fields', f: builder %>
+      <% end %>
+      <%= link_to_add_fields "Add Dev", f, :project_devs %>
+    </p>
+    <p><%= f.submit %></p>
+  <% end %>
+</div>

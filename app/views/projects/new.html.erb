@@ -1,0 +1,25 @@
+<br/>
+<h3 class="ms-1">Create Project</h3>
+<br/>
+<div class='container-fluid'>
+  <%= form_with url: projects_path, method: :post do |form| %>
+    <p>
+      <%= form.label :name, :Name, class: 'form-label' %>
+      <%= form.text_field :name, class: 'form-control' %>
+    </p>
+    <p>
+      <%= form.label :description, :Description, class: 'form-label' %>
+      <%= form.text_area :description, class: 'form-control' %>
+    </p>
+    <p>
+      <%= form.label :qas, :QAs, class: 'form-label' %>
+      <%= select_tag :qas, options_for_select(User.where(user_type: 1).map { |s| [s.name, s.id] }, @project.qas.pluck(:id)), multiple: true, class: 'form-select form-select-lg mb-3' %>
+    </p>
+    <p>
+      <%= form.label :devs, :Devs, class: 'form-label' %>
+      <%= select_tag :devs, options_for_select(User.where(user_type: 2).map { |s| [s.name, s.id] }, @project.qas.pluck(:id)), multiple: true, class: 'form-select form-select-lg mb-3' %>
+    </p>
+    <br/>
+    <%= form.submit %>
+  <% end %>
+</div>

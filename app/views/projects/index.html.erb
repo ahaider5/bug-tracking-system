@@ -1,0 +1,64 @@
+<br>
+<div class="row">
+  <div class="col-6">
+    <h3 class="ms-1">Listing Projects</h3>
+  </div>
+  <div class="col-6 text-end">
+    <%= button_to "Add Project", new_project_path, method: :get %>
+  </div>
+</div>
+<br/>
+<table class="table">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Description</th>
+      <th>QA(s)</th>
+      <th>Developer(s)</th>
+      <th>Created By</th>
+      <th colspan="2">Actions</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @projects.each do |project| %>
+      <tr>
+        <td><%= project.id %></td>
+        <td><%= project.name %></td>
+        <td><%= project.description %></td>
+        <td>
+          <ul>
+            <% pDevs = Project.find_by(id: project.id).qas %>
+            <% pDevs.each do |dev| %>
+              <li>
+                <%= dev.name %>
+              </li>
+            <% end %>
+          </ul>
+        </td>
+        <td>
+          <ul>
+            <% pQas = Project.find_by(id: project.id).devs %>
+            <% pQas.each do |dev| %>
+              <li>
+                <%= dev.name %>
+              </li>
+            <% end %>
+          </ul>
+        </td>
+        <td><%= User.find_by(id: project.created_by_id).name %></td>
+        <td>
+          <% if can? :edit, Project%>
+            <%= link_to "Edit", edit_project_path(project) %>
+          <% end %>
+        </td>
+        <td>
+          <% if can? :destroy, Project%>
+            <%= link_to "Destroy", project_path(project), method: :delete, data: { confirm: "Are you sure?" } %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

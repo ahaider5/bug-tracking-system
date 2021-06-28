@@ -1,0 +1,63 @@
+<br>
+<div class="row">
+  <div class="col-6">
+    <h3 class="ms-1">Listing Bugs</h3>
+  </div>
+  <div class="col-6 text-end">
+    <%= button_to "Add Bug", new_bug_path, method: :get %>
+  </div>
+</div>
+<br/>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Project</th>
+      <th>Title</th>
+      <th>Description</th>
+      <th>Deadline</th>
+      <th>Screenshot</th>
+      <th>Type</th>
+      <th>Status</th>
+      <th>Created By</th>
+      <th>Solved By</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @bugs.each do |bug| %>
+      <tr>
+        <td><%= Project.find_by(id: bug.project_id).name %></td>
+        <td><%= bug.title %></td>
+        <td><%= bug.description %></td>
+        <td><%= bug.deadline %></td>
+        <td><%= bug.deadline %></td>
+        <td><%= bug.bug_type %></td>
+        <td>
+          <% if bug.bug_type == 'feature' %>
+            <%= bug.feature_status %>
+          <% else %>
+            <%= bug.bug_status %>
+          <% end %>
+        </td>
+        <td><%= User.find_by(id: bug.created_by).name %></td>
+        <td><%=  %></td>
+        <td>
+          <% if can? :show, Bug%>
+            <%= link_to "Show", bug_path(bug) %>
+          <% end %>
+        </td>
+        <td>
+          <% if can? :destroy, Bug%>
+            <%= link_to "Edit", edit_bug_path(bug) %>
+          <% end %>
+        </td>
+        <td>
+          <% if can? :destroy, Bug%>
+            <%= link_to "Destroy", bug_path(bug), method: :delete, data: { confirm: "Are you sure?" } %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
