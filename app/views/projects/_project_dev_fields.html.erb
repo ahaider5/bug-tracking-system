@@ -1,5 +1,5 @@
 <fieldset>
-  <%= f.text_field :user_id, { class: 'form-control', style: 'width: 300px; display: initial;' } %>
+  <%= f.select :user_id, User.where(user_type: 2).collect {|p| [ p.name, p.id ] }, {prompt: 'Select User'}, { class: 'form-control', style: 'width: 300px; display: initial;' } %>
   <%= f.hidden_field :_destroy %>
   <%= link_to "Remove", '#', { class: "remove_fields" } %>
 </fieldset>
