@@ -75,6 +75,6 @@ class ProjectsController < ApplicationController
   # permit list between create and update. Also, you can specialize
   # this method with per-user checking of permissible attributes.
   def project_params
-    params.require(:project).permit(:name, :description, :project_qas_attributes,:project_devs_attributes )
+    params.permit(:name, :description, :project_qas_attributes,:project_devs_attributes )
   end
 end
